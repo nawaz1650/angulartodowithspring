@@ -31,10 +31,11 @@
     <div class="col-xs-12">
       <form (ngSubmit)="onSubmit()" #form="ngForm">
         <div class="row">
-          <div class="col-xs-10">
+          <div class="col-xs-8">
             <input
               type="text"
               [(ngModel)]="newtodo"
+              [(ngModel)]="search"
               name="newtodo"
               #newtodotxt="ngModel"
               required
@@ -43,9 +44,20 @@
             />
           </div>
           <div class="col-xs-2" style="text-align: left">
-            <button [disabled]="!newtodotxt.valid" class="btn btn-primary">
+            <button
+              [disabled]="!newtodotxt.valid || searchMode"
+              class="btn btn-primary"
+            >
               Add
             </button>
+          </div>
+          <div class="col-xs-2" style="text-align: left">
+            <span
+              class="fa fa-search fa-2x"
+              style="cursor: pointer"
+              (click)="searchEnable()"
+              [ngClass]="{ 'fa-3x': searchMode }"
+            ></span>
           </div>
         </div>
       </form>
@@ -59,8 +71,10 @@
           appBasicHighlight
           class="list-group-item clearfix"
           style="overflow-wrap: anywhere"
-          *ngFor="let todo of todoservice.todos | filter: search; let i = index"
-          [ngClass]="{ completed: true }"
+          *ngFor="
+            let todo of todoservice.todos | filter: (searchMode ? search : '');
+            let i = index
+          "
         >
           {{ todo.task }}
 
@@ -88,20 +102,7 @@
     id="server"
     (pageChange)="p = $event"
   ></pagination-controls> -->
-  <div
-    class="row"
-    style="display: flex; position: fixed; bottom: 30px; align-items: center"
-  >
-    <div class="col-xs-3"><label for="search">search</label></div>
-    <div class="col-xs-7">
-      <input
-        type="text"
-        id="search"
-        name="search"
-        [(ngModel)]="search"
-        class="form-control"
-      />
-    </div>
-    <div class="col-xs-2">{{ todoservice.todos.length }}Items</div>
+  <div class="row" style="position: absolute; bottom: 30px; left: 45vw">
+    <div style="text-align: center">{{ todoservice.todos.length }} Items</div>
   </div>
 </div>

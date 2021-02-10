@@ -11,6 +11,7 @@ export class AppComponent implements OnInit {
   title = 'TodoApp';
   newtodo: string;
   todoUnderEdit = '';
+  searchMode = false;
 
   editId = -1;
   search = '';
@@ -59,6 +60,13 @@ export class AppComponent implements OnInit {
     const temp = this.prepareTodo(this.newtodo);
     this.todoservice.addTodo(temp);
     this.newtodo = '';
+    this.search = '';
+  }
+  searchEnable() {
+    this.searchMode = !this.searchMode;
+    console.log('search mode', this.searchMode);
+    console.log('this.search', this.search);
+    console.log('this.newtodo', this.newtodo);
   }
   prepareTodo(todo: string) {
     const id = this.todoservice.todos.length + 1;
