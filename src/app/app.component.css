@@ -1,0 +1,13 @@
+.editpopup {
+  position: fixed;
+  height: 15vh;
+  width: 80vw;
+  border-radius: 4px;
+  left: 10vw;
+  top: 20vh;
+  z-index: 1000;
+  border: 1px solid black;
+}
+.completed {
+  background-color: limegreen;
+}
