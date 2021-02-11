@@ -1,24 +1,32 @@
 <div class="editpopup" *ngIf="editId >= 0">
-  <div class="form-group">
+  <div class="form-group" style="position: relative">
     <form (ngSubmit)="saveModifiedTodo()" #editForm="ngForm">
-      <div style="border: 1px solid green; background-color: blue">
-        <h3 style="display: inline; color: white">Edit</h3>
-      </div>
       <input
         [(ngModel)]="todoUnderEdit"
         name="todounderedit"
+        style="
+          outline: none;
+          border: 0px none;
+          margin-left: 30px;
+          display: block;
+        "
         [value]="todoUnderEdit"
         id="editor"
-        class="form-control"
         type="text"
       />
-      <button class="btn btn-primary">Save</button>
-      <button (click)="cancelEdit()" type="button" class="btn btn-danger">
-        Cancel
-      </button>
-      <button (click)="markAsComplete()" type="button" class="btn btn-success">
-        Mark as completed
-      </button>
+      <div style="position: absolute:top:20px">
+        <button class="btn btn-primary">Save</button>
+        <button (click)="cancelEdit()" type="button" class="btn btn-danger">
+          Cancel
+        </button>
+        <button
+          (click)="markAsComplete()"
+          type="button"
+          class="btn btn-success"
+        >
+          Mark as completed
+        </button>
+      </div>
     </form>
   </div>
 </div>
@@ -72,9 +80,12 @@
           class="list-group-item clearfix"
           style="overflow-wrap: anywhere"
           *ngFor="
-            let todo of todoservice.todos | filter: (searchMode ? search : '');
+            let todo of todoservice.todos
+              | filter: (searchMode ? search : '')
+              | paginate: { id: 'foo', itemsPerPage: 6, currentPage: p };
             let i = index
           "
+          [ngClass]="{ completed: getTodos()[i].completed }"
         >
           {{ todo.task }}
 
@@ -98,10 +109,17 @@
       </ul>
     </div>
   </div>
-  <!-- <pagination-controls
-    id="server"
-    (pageChange)="p = $event"
-  ></pagination-controls> -->
+  <div class="row" style="bottom: 180px">
+    <div class="col-xs-8 visible-xs"></div>
+    <div
+      class="col-xs-12 col-md 3 col-md-offset-4 col-lg-offset-4 col-xl-offset-6"
+    >
+      <pagination-controls
+        id="foo"
+        (pageChange)="p = $event"
+      ></pagination-controls>
+    </div>
+  </div>
   <div class="row" style="position: absolute; bottom: 30px; left: 45vw">
     <div style="text-align: center">{{ todoservice.todos.length }} Items</div>
   </div>

@@ -12,6 +12,7 @@ export class AppComponent implements OnInit {
   newtodo: string;
   todoUnderEdit = '';
   searchMode = false;
+  p: number = 1;
 
   editId = -1;
   search = '';
