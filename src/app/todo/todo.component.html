@@ -1,0 +1,133 @@
+<div class="editpopup" *ngIf="editId >= 0">
+  <div class="form-group" style="position: relative">
+    <form (ngSubmit)="saveModifiedTodo()" #editForm="ngForm">
+      <input
+        [(ngModel)]="todoUnderEdit"
+        name="todounderedit"
+        style="
+          outline: none;
+          border: 0px none;
+          margin-left: 30px;
+          display: block;
+        "
+        [value]="todoUnderEdit"
+        id="editor"
+        type="text"
+      />
+      <div style="position: absolute; top: 20px">
+        <button class="btn btn-primary">Save</button>
+        <button (click)="cancelEdit()" type="button" class="btn btn-danger">
+          Cancel
+        </button>
+        <button
+          (click)="markAsComplete()"
+          type="button"
+          class="btn btn-success"
+        >
+          Mark as completed
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div style="text-align: center" class="col-xs-12"><h1>TODO'S</h1></div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <form (ngSubmit)="onSubmit()" #form="ngForm">
+        <div class="row">
+          <div class="col-xs-8">
+            <input
+              type="text"
+              [(ngModel)]="newtodo"
+              [(ngModel)]="search"
+              name="newtodo"
+              #newtodotxt="ngModel"
+              required
+              class="form-control"
+              autocomplete="off"
+            />
+          </div>
+          <div class="col-xs-2" style="text-align: left">
+            <button
+              [disabled]="!newtodotxt.valid || searchMode"
+              class="btn btn-primary"
+            >
+              Add
+            </button>
+          </div>
+          <div class="col-xs-2" style="text-align: left">
+            <span
+              class="fa fa-search fa-2x"
+              style="cursor: pointer"
+              (click)="searchEnable()"
+              [ngClass]="{ 'fa-3x': searchMode }"
+            ></span>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <hr />
+  <div class="row">
+    <div class="col-xs-12">
+      <ul class="list-group">
+        <li
+          appBasicHighlight
+          class="list-group-item clearfix"
+          style="overflow-wrap: anywhere"
+         
+          *ngFor="
+            let todo of todos
+              | filter: (searchMode ? search : '')
+              | paginate: { id: 'foo', itemsPerPage: 6, currentPage: p };
+            let i = index
+          "
+          [ngClass]="{completed:todo.completedString=='yes'}"
+        >
+          {{ todo.taskString }}
+          
+          
+          <span
+            (click)="activateEdit(i)"
+
+            style="cursor: pointer;border-radius: 50%;"
+            class="fa fa-pencil pull-right"
+
+            >
+          </span>
+          <span deletedirective
+              (click)="removethistodo(i)"
+              style="
+                
+                cursor: pointer;
+                
+                text-align: center;
+              "
+              class="badge "
+              >X</span
+            >
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="row" style="bottom: 180px">
+    <div class="col-xs-8 visible-xs"></div>
+    <div
+      class="col-xs-12 col-md 3 col-md-offset-4 col-lg-offset-4 col-xl-offset-6"
+    >
+      <pagination-controls
+        id="foo"
+        (pageChange)="p = $event"
+      ></pagination-controls>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-2 col-md-offset-5 col-xs-2 col-xs-offset-5">
+      {{ todos.length }} Items
+    </div>
+  </div>
+</div>

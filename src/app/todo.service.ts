@@ -8,7 +8,7 @@ export class TodoService {
     this.todos.push(todo);
   }
   modifyTodo(index, task) {
-    this.todos[index].task = task;
+    this.todos[index].taskString = task;
   }
   removetodo(index: number) {
     if (this.todos.length === 1) {

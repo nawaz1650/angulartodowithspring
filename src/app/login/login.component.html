@@ -1,0 +1,38 @@
+<div class="row" style="margin-top: 50px">
+  <div class="col-xs-8 col-xs-offset-2">
+    <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+    <form (ngSubmit)="submit()" #f="ngForm">
+      <div class="from-group">
+        <label for="username">Username</label>
+        <input
+          autocomplete="off"
+          ngModel
+          name="username"
+          type="text"
+          class="form-control"
+          required
+        />
+      </div>
+      <div class="from-group">
+        <label for="password">password</label>
+        <input
+          autocomplete="off"
+          ngModel
+          required
+          name="password"
+          type="password"
+          class="form-control"
+        />
+      </div>
+      <div class="form-group" style="margin-top: 10px">
+        <button class="btn btn-primary" [disabled]="!f.valid">
+          {{ loginmode ? "Login" : "Signup" }}
+        </button>
+        |
+        <button class="btn btn-primary" (click)="togglemode()" type="button">
+          Switch to {{ loginmode ? "Signup" : "Login" }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

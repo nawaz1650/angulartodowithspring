@@ -1,0 +1,9 @@
+<h2 mat-dialog-title>Edit</h2>
+<mat-form-field>
+    <input type="text" matInput placeholder="new value"  [(ngModel)]="textvalue" required [value]="textvalue">
+</mat-form-field>
+<mat-dialog-actions>
+    <button class="btn btn-primary" [mat-dialog-close]="textvalue">Save</button>
+    <button class="btn btn-success" [mat-dialog-close]="'completed'">completed</button>
+    <button class="btn btn-warning" [mat-dialog-close]="'close'">cancel</button>
+</mat-dialog-actions>

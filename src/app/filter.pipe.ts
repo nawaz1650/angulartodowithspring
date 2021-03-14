@@ -9,7 +9,7 @@ export class FilterPipe implements PipeTransform {
   transform(value: Todo[], args: string): Todo[] {
     if (args === '') return value;
     return value.filter((val) => {
-      return val.task.toLowerCase().indexOf(args.toLowerCase()) !== -1;
+      return val.taskString.toLowerCase().indexOf(args.toLowerCase()) !== -1;
     });
   }
 }
