@@ -31,7 +31,7 @@ export class AuthEffect {
     switchMap((logindata: authactions.LoginStart) => {
       console.log('from login effect');
       return this.http
-        .post<any>('http://localhost:8080/login', {
+        .post<any>('https://springbootapp-todo.herokuapp.com/login', {
           username: logindata.payload.username,
           password: logindata.payload.password,
         })
@@ -56,7 +56,7 @@ export class AuthEffect {
     switchMap((todostart: FetchTodoStart) => {
       return this.http
         .get<Todo[]>(
-          `http://localhost:8080/User/${todostart.payload.userid}/Todos`
+          `https://springbootapp-todo.herokuapp.com/User/${todostart.payload.userid}/Todos`
         )
         .pipe(
           map((res) => {
@@ -73,7 +73,7 @@ export class AuthEffect {
   @Effect()
   todoaddeffect=this.actions$.pipe(ofType(TODO_ADD_START),switchMap((actiondata:TodoAddStart)=>{
     console.log("from todoeffect  ",actiondata);
-return this.http.post<any>(`http://localhost:8080/User/${localStorage.getItem('userid')}/Todo`,
+return this.http.post<any>(`https://springbootapp-todo.herokuapp.com/User/${localStorage.getItem('userid')}/Todo`,
 {taskString:actiondata.payload.taskString,completedString:actiondata.payload.completedString}).
 pipe(map((res)=>{
   console.log(res);
@@ -87,7 +87,7 @@ pipe(map((res)=>{
   @Effect()
   deletetodoeffect=this.actions$.pipe(ofType(DELETE_TODO_START),switchMap((data:DeleteTodoStart)=>{
     console.log("from swich map of delete todo effect ",data);
-    return this.http.delete<any>(`http://localhost:8080/users/${localStorage.getItem('userid')}/Todos/${data.payload.id}`)
+    return this.http.delete<any>(`https://springbootapp-todo.herokuapp.com/users/${localStorage.getItem('userid')}/Todos/${data.payload.id}`)
     .pipe(
       map((res)=>{
         //console.log(res," from delete todo effect");
@@ -106,7 +106,7 @@ pipe(map((res)=>{
       (updateTodoStartData:UpdateTodoStart)=>{
         console.log("from switch map of update todo start ",updateTodoStartData);
           return this.http.put<UpdateTodoStart>
-          (`http://localhost:8080/users/${localStorage.getItem('userid')}`
+          (`https://springbootapp-todo.herokuapp.com/users/${localStorage.getItem('userid')}`
           ,{todoid:updateTodoStartData.payload.todoid,taskString:updateTodoStartData.payload.taskString,completedString:updateTodoStartData.payload.completedString}).pipe(
             map(
               (res)=>{
@@ -126,7 +126,7 @@ pipe(map((res)=>{
   signupstarteffect=this.actions$.pipe(
     ofType(SIGNUP_START),
     switchMap((signupdata:SignupStart)=>{
-      return this.http.post<any>("http://localhost:8080/signup",{
+      return this.http.post<any>("https://springbootapp-todo.herokuapp.com/signup",{
         username:signupdata.payload.username,
         password:signupdata.payload.password
       }).pipe(
