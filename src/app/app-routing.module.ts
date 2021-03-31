@@ -1,3 +1,4 @@
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { TodoResolver } from './todo/Todo.resolver';
 import { AuthGuard } from './authGuard';
 import { TodoComponent } from './todo/todo.component';
@@ -13,6 +14,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     resolve: [TodoResolver],
   },
+  {path:'forgot_pswd',component:ForgotPasswordComponent}
 ];
 
 @NgModule({

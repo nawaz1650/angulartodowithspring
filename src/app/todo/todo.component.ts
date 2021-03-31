@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { EditComponent } from './../edit/edit.component';
 import { map } from 'rxjs/operators';
 import { ChangeDetectorRef, OnDestroy } from '@angular/core';
@@ -21,6 +22,7 @@ import { Subscription } from 'rxjs';
 })
 export class TodoComponent implements OnInit,OnDestroy {
   title = 'TodoApp';
+  username:string;
   subscription:Subscription;
   newtodo: string;
   todoUnderEdit = '';
@@ -64,7 +66,7 @@ export class TodoComponent implements OnInit,OnDestroy {
     console.log("current page is ",this.p);
     const calculatedindex=(6*(this.p-1))+index;
     console.log('calculated index is ',(6*(this.p-1))+index);
-    const editdialog=this.dialog.open(EditComponent,{data:{editingtodo:this.todos[calculatedindex].taskString}});
+    const editdialog=this.dialog.open(EditComponent,{data:{editingtodo:this.todos[calculatedindex].taskString},disableClose:true});
     console.log("todo under edit is ",this.todos[calculatedindex]);
     editdialog.afterClosed().subscribe(res=>{
       console.log(res," from dialog");
@@ -77,6 +79,9 @@ export class TodoComponent implements OnInit,OnDestroy {
           todoid:this.todos[calculatedindex].todoid,
           taskString: this.todos[calculatedindex].taskString,
           completedString: 'yes'}))
+      }
+      else if(res==undefined||res==''||res==null ){
+          //dialogue is closed without any action i.e by clicking outside of it
       }
       else{
         this.store.dispatch(new UpdateTodoStart({frontendid: calculatedindex,
@@ -91,6 +96,7 @@ export class TodoComponent implements OnInit,OnDestroy {
     //this.todoUnderEdit = this.todos[index].taskString;
   }
   ngOnInit() {
+    this.username=localStorage.getItem('username');
    this.subscription= this.store
       .select('todos')
       .pipe(
@@ -116,7 +122,8 @@ export class TodoComponent implements OnInit,OnDestroy {
     private store: Store<AppState>,
     private zone: NgZone,
     private cdr: ChangeDetectorRef,
-    private dialog:MatDialog
+    private dialog:MatDialog,
+    private router:Router
   ) {
     this.config = {
       id: 'server',
@@ -148,12 +155,19 @@ export class TodoComponent implements OnInit,OnDestroy {
     return new Todo(todo, id, false);
   }
   removethistodo(id: number) {
-    console.log('index rcvd ', id);
+    const calculatedindex=(6*(this.p-1))+id;
+    console.log('index rcvd ', calculatedindex);
     this.store.select('todos').subscribe(todos=>{
-      console.log(todos.todos[id].todoid,id);
-       this.store.dispatch(new DeleteTodoStart({id:todos.todos[id].todoid,frontendid:id}))                     
+      console.log("todo id is  ",todos.todos[calculatedindex].todoid);
+       this.store.dispatch(new DeleteTodoStart({id:todos.todos[calculatedindex].todoid,frontendid:calculatedindex}))                     
     }).unsubscribe();
     //this.todoservice.removetodo(id);
     //console.log('todoservice todos r now ', this.todoservice.todos);
+  }
+  logout(){
+    console.log("from logout");
+    localStorage.clear();
+    this.router.navigate(['']);
+
   }
 }

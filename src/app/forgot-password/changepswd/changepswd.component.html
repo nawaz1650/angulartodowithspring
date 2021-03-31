@@ -1,0 +1,16 @@
+<h2 mat-dialog-title>Reset password</h2>
+<mat-form-field>
+    <input required type="password" matInput placeholder="new password" [(ngModel)]="newPassword" #new>
+</mat-form-field>
+<br>
+<mat-form-field>
+    <input required type="password" matInput placeholder="confirm password" [(ngModel)]="confirmPassword" #confirm>
+    <mat-error></mat-error>
+</mat-form-field>
+<mat-dialog-actions>
+    <button mat-button-raised color="primary" type="button"
+    [disabled]="!(newPassword == confirmPassword)"
+    [mat-dialog-close]="newPassword"
+  (click)="submit()" >Change</button>
+    <button mat-button-raised color="primary" type="button" (click)="clear()">Clear</button>
+</mat-dialog-actions>

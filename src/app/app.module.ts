@@ -9,7 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { BasicHighlightDirective } from './basic-highlight.directive';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FilterPipe } from './filter.pipe';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -18,6 +18,11 @@ import { LoginComponent } from './login/login.component';
 import { TodoComponent } from './todo/todo.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { EditComponent } from './edit/edit.component';
+import { AuthInterceptor } from './auth-interceptor';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { OtpComponent } from './forgot-password/otp/otp.component';
+import { ChangepswdComponent } from './forgot-password/changepswd/changepswd.component';
+import { SpinnerComponent } from './spinner/spinner.component';
 
 
 @NgModule({
@@ -29,6 +34,10 @@ import { EditComponent } from './edit/edit.component';
     LoginComponent,
     TodoComponent,
     EditComponent,
+    ForgotPasswordComponent,
+    OtpComponent,
+    ChangepswdComponent,
+    SpinnerComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,7 +51,9 @@ import { EditComponent } from './edit/edit.component';
     HttpClientModule,
     MatModules
   ],
-  providers: [],
+  providers: [
+    {provide:HTTP_INTERCEPTORS,useClass:AuthInterceptor,multi:true}
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

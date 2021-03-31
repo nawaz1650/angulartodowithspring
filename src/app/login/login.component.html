@@ -1,6 +1,7 @@
 <div class="row" style="margin-top: 50px">
   <div class="col-xs-8 col-xs-offset-2">
     <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+    <div *ngIf="info" class="alert alert-success">{{ info }}</div>
     <form (ngSubmit)="submit()" #f="ngForm">
       <div class="from-group">
         <label for="username">Username</label>
@@ -13,6 +14,19 @@
           required
         />
       </div>
+
+      <div *ngIf="!loginmode" class="from-group">
+        <label for="email">Email</label>
+        <input
+          autocomplete="off"
+          ngModel
+          required
+          email
+          name="email"
+          type="email"
+          class="form-control"
+        />
+      </div>
       <div class="from-group">
         <label for="password">password</label>
         <input
@@ -23,6 +37,9 @@
           type="password"
           class="form-control"
         />
+        <span *ngIf="!loginmode" style="margin-top: 10px;">
+        <input  required ngModel name="terms"  type="checkbox"  ><a  routerLink="/terms" >  I agree to terms and conditions</a> 
+      </span>
       </div>
       <div class="form-group" style="margin-top: 10px">
         <button class="btn btn-primary" [disabled]="!f.valid">
@@ -32,6 +49,8 @@
         <button class="btn btn-primary" (click)="togglemode()" type="button">
           Switch to {{ loginmode ? "Signup" : "Login" }}
         </button>
+        <br/>
+        <a *ngIf="loginmode" [routerLink]="'/forgot_pswd'">Forgot your password?</a>
       </div>
     </form>
   </div>

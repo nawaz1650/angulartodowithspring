@@ -15,7 +15,7 @@ interface UserInterfce {
 
 export class SignupStart implements Action {
   readonly type = SIGNUP_START;
-  constructor(public payload: { username: string; password: string }) {}
+  constructor(public payload: { username: string;email:string, password: string }) {}
 }
 
 export class SignupSuccess implements Action {
