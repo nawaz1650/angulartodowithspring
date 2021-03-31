@@ -8,7 +8,8 @@ export class ForgotPasswordService{
   resetpswd(username: string, email: string, newpswd: string) {
     //throw new Error('Method not implemented.');
 
-    return this.http.post<any>('http://localhost:8080/resetPassword',{
+    //return this.http.post<any>('http://localhost:8080/resetPassword',{
+        return this.http.post<any>('https://springbootapp-todo.herokuapp.com/resetPassword',{
         username:username,email:email,newpswd:newpswd
     }).pipe(
         map(
@@ -24,7 +25,8 @@ export class ForgotPasswordService{
     )
   }
   validateOtp(username: String, email:String, otp: string) {
-    return this.http.post<any>('http://localhost:8080/validateOtp',{
+    return this.http.post<any>('https://springbootapp-todo.herokuapp.com/validateOtp',{
+    //return this.http.post<any>('http://localhost:8080/validateOtp',{
         username:username,email:email,otp:otp
     }).pipe(
         map(
@@ -43,7 +45,8 @@ export class ForgotPasswordService{
 
     }
 generateOtp(username:String,email:string){
-    return this.http.post<any>('http://localhost:8080/forgotpassword',{
+    //return this.http.post<any>('http://localhost:8080/forgotpassword',{
+        return this.http.post<any>('https://springbootapp-todo.herokuapp.com/forgotpassword',{
         username:username,email:email
     }).pipe(
         map(
