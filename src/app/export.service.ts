@@ -12,7 +12,7 @@ export class ExportService {
   export(){
     return this.http.
     //get(`http://localhost:8080/export/${localStorage.getItem('userid')}`,
-    get(`https://springbootapp-todo.herokuapp.com//export/${localStorage.getItem('userid')}`,
+    get(`https://springbootapp-todo.herokuapp.com/export/${localStorage.getItem('userid')}`,
     {responseType:"blob"}).
     pipe(map((res)=>{console.log("from map ",res)
     //do research
