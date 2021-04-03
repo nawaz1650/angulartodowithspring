@@ -50,7 +50,10 @@ export class AuthEffect {
           catchError((error) => {
             console.log(error);
             console.log('from auth effect error', error.error.message);
+            if(error.error.message)
             return of(new authactions.LoginFail(error.error.message));
+            else
+            return of(new authactions.LoginFail("some error occured"));
           })
         );
     })
@@ -63,7 +66,7 @@ export class AuthEffect {
         .get<Todo[]>(
           //uncomment before release
           `https://springbootapp-todo.herokuapp.com/User/${todostart.payload.userid}/Todos`
-         // `http://localhost:8080/User/${todostart.payload.userid}/Todos`
+          // `http://localhost:8080/User/${todostart.payload.userid}/Todos`
         )
         .pipe(
           map((res) => {
@@ -82,7 +85,7 @@ export class AuthEffect {
     console.log("from todoeffect  ",actiondata);
     //uncomment b4 release
 return this.http.post<any>(`https://springbootapp-todo.herokuapp.com/User/${localStorage.getItem('userid')}/Todo`,
-//return this.http.post<any>(`http://localhost:8080/User/${localStorage.getItem('userid')}/Todo`,
+// return this.http.post<any>(`http://localhost:8080/User/${localStorage.getItem('userid')}/Todo`,
 {taskString:actiondata.payload.taskString,completedString:actiondata.payload.completedString}).
 pipe(map((res)=>{
   console.log(res);
@@ -98,7 +101,7 @@ pipe(map((res)=>{
     console.log("from swich map of delete todo effect ",data);
     //uncomment before release
     return this.http.delete<any>(`https://springbootapp-todo.herokuapp.com/users/${localStorage.getItem('userid')}/Todos/${data.payload.id}`)
-//    return this.http.delete<any>(`http://localhost:8080/users/${localStorage.getItem('userid')}/Todos/${data.payload.id}`)
+    // return this.http.delete<any>(`http://localhost:8080/users/${localStorage.getItem('userid')}/Todos/${data.payload.id}`)
     .pipe(
       map((res)=>{
         //console.log(res," from delete todo effect");
@@ -119,7 +122,7 @@ pipe(map((res)=>{
           return this.http.put<UpdateTodoStart>
           //uncomment before release
           (`https://springbootapp-todo.herokuapp.com/users/${localStorage.getItem('userid')}`
-          //(`http://localhost:8080/users/${localStorage.getItem('userid')}`
+          // (`http://localhost:8080/users/${localStorage.getItem('userid')}`
           ,{todoid:updateTodoStartData.payload.todoid,taskString:updateTodoStartData.payload.taskString,completedString:updateTodoStartData.payload.completedString}).pipe(
             map(
               (res)=>{
@@ -154,7 +157,11 @@ pipe(map((res)=>{
         }),
         catchError((e:HttpErrorResponse)=>{
           console.log("from signup effect fail ",e);
+          if(e.error.message)
           return of(new SignupFail(e.error.message));
+          else
+          return of(new SignupFail("some error occuerd"));
+
         })
       )
     })

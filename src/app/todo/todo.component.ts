@@ -1,3 +1,4 @@
+import { ExportService } from './../export.service';
 import { Router } from '@angular/router';
 import { EditComponent } from './../edit/edit.component';
 import { map } from 'rxjs/operators';
@@ -123,7 +124,8 @@ export class TodoComponent implements OnInit,OnDestroy {
     private zone: NgZone,
     private cdr: ChangeDetectorRef,
     private dialog:MatDialog,
-    private router:Router
+    private router:Router,
+    private exportSer:ExportService
   ) {
     this.config = {
       id: 'server',
@@ -170,4 +172,14 @@ export class TodoComponent implements OnInit,OnDestroy {
     this.router.navigate(['']);
 
   }
+  export(){
+    
+    this.exportSer.export().subscribe(
+      (res)=>{
+        console.log(res);
+      }
+    )
+
+  }
+
 }

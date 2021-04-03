@@ -16,11 +16,12 @@ export function authReducer(
         ...state,
         username: action.payload.username,
         loginTimetamp: new Date(),
+        error: null
       };
     case authActions.LOGIN_FAIL:
       return { ...state, username: null, error: action.payload };
       case authActions.SIGNUP_SUCCESS:
-        return {...state,username:action.payload.username,userid:action.payload.userid}
+        return {...state,username:action.payload.username,userid:action.payload.userid,error:null}
         case authActions.SIGNUP_FAIL :
           return {...state,error:action.payload}
     default:
